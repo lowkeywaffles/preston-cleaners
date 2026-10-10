@@ -1,0 +1,73 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Preston Cleaners: navy pinstripe, starched white, claim-ticket orange */
+@theme inline {
+  --color-background: var(--bg);
+  --color-border: var(--line);
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg-2);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-soft: var(--soft);
+  --color-line: var(--line);
+  --color-navy: var(--navy);
+  --color-tag: #ff7a45;
+  --color-tagtext: var(--tag-text);
+  --font-display: var(--font-gloock), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --ease-silk: cubic-bezier(.32, .72, 0, 1);
+  --ease-spring: cubic-bezier(.34, 1.4, .64, 1);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-100% - var(--gap))); } }
+}
+
+:root {
+  --bg: #f6f7f9; --bg-2: #eceff4; --card: #ffffff; --ink: #121a2c; --soft: #59627a; --line: rgba(18, 26, 44, .1);
+  --navy: #1a2a4a; --tag-text: #c2501f; --bag: rgba(190, 210, 235, .35); --stripe: rgba(26, 42, 74, .05);
+  --glass: rgba(246, 247, 249, .76); --hi: rgba(255, 255, 255, .9); --shadow: rgba(18, 26, 44, .18); --map: none;
+}
+.dark {
+  --bg: #0c111d; --bg-2: #111827; --card: #161e30; --ink: #eef1f7; --soft: #9aa3b8; --line: rgba(238, 241, 247, .09);
+  --navy: #24345e; --tag-text: #ff9a6c; --bag: rgba(120, 150, 210, .12); --stripe: rgba(168, 188, 240, .05);
+  --glass: rgba(12, 17, 29, .72); --hi: rgba(255, 255, 255, .05); --shadow: rgba(0, 0, 0, .6);
+  --map: invert(.9) hue-rotate(180deg) saturate(.5);
+  color-scheme: dark;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.02; letter-spacing: -.015em; text-wrap: balance; }
+h1 em, h2 em { color: var(--tag-text); }
+::selection { background: #ff7a45; color: #3b1400; }
+:focus-visible { outline: 3px solid #ff7a45; outline-offset: 3px; border-radius: 10px; }
+.pinstripe { background-image: repeating-linear-gradient(90deg, var(--stripe) 0 1px, transparent 1px 22px); }
+.perf { -webkit-mask: radial-gradient(circle 7px at 0 50%, transparent 98%, #000), radial-gradient(circle 7px at 100% 50%, transparent 98%, #000); -webkit-mask-composite: source-in; mask-composite: intersect; }
+@keyframes sway { 50% { transform: rotate(2.5deg); } }
+.sway { transform-origin: 50% 0; animation: sway 6s ease-in-out infinite; }
+@keyframes swing { 25% { transform: rotate(14deg); } 55% { transform: rotate(-9deg); } 80% { transform: rotate(4deg); } }
+.swing { animation: swing .9s ease-in-out; }
+
+@layer base {
+  html { overflow-x: clip; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; transition: background-color .5s var(--ease-silk), color .5s var(--ease-silk); }
+  p { text-wrap: pretty; }
+}
+
+body::after { content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .04; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+.glass { background: var(--glass); backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4); }
+.bezel { padding: 6px; background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* theme change grows out of the switch that was pressed */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: grow .6s cubic-bezier(.7, 0, .3, 1); }
+@keyframes grow { from { clip-path: circle(0 at var(--rx, 100%) var(--ry, 0)); } to { clip-path: circle(var(--rr, 150vmax) at var(--rx, 100%) var(--ry, 0)); } }
+
+.rv { opacity: 0; transform: translateY(40px); filter: blur(8px); transition-property: opacity, transform, filter; transition-duration: 1s; transition-timing-function: cubic-bezier(.32, .72, 0, 1); }
+.rv.in { opacity: 1; transform: none; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1; transform: none; filter: none; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media (prefers-reduced-transparency: reduce) { .glass { background: var(--bg); backdrop-filter: none; } }
