@@ -107,14 +107,14 @@ export default function Home() {
     <>
       <header className="pointer-events-none sticky top-3 z-40 px-4">
         <nav className="glass pointer-events-auto mx-auto flex h-[70px] max-w-[1160px] items-center justify-between gap-3 rounded-[20px] border border-line ps-3 pe-2.5 shadow-[inset_0_1px_0_var(--hi),0_20px_50px_-28px_var(--shadow)]">
-          <a href="#top" className="flex flex-none items-center gap-2.5" aria-label="Preston Cleaners">
-            <span className="grid size-11 place-items-center rounded-xl bg-navy"><CoatHanger size={24} color="#fff" /></span>
-            <span><b className="block font-display text-[25px] leading-none font-normal">Preston Cleaners</b><T k="logoSub" className="mt-0.5 block text-[11px] font-extrabold tracking-[.16em] text-soft uppercase max-sm:hidden" /></span>
+          <a href="#top" className="flex min-w-0 items-center gap-2.5" aria-label="Preston Cleaners">
+            <span className="grid size-11 flex-none place-items-center rounded-xl bg-navy"><CoatHanger size={24} color="#fff" /></span>
+            <span className="min-w-0"><b className="block font-display text-[25px] leading-none font-normal max-sm:text-[20px]">Preston Cleaners</b><T k="logoSub" className="mt-0.5 block text-[11px] font-extrabold tracking-[.16em] text-soft uppercase max-sm:hidden" /></span>
           </a>
           <div className="flex items-center gap-1 text-[15px] font-semibold max-[900px]:hidden">
             {[["services", "navServices"], ["visit", "navVisit"]].map(([id, k]) => <a key={id} href={`#${id}`} className="rounded-xl px-4 py-2 text-soft transition-colors hover:bg-bg2 hover:text-ink" dangerouslySetInnerHTML={{ __html: t(k) }} />)}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-none items-center gap-3 max-sm:gap-2">
             <Ticket /><Hanger />
             <a href={TEL} className={cn(primary, "px-5 py-2.5 max-sm:hidden")}><Phone size={17} weight="bold" />{PHONE}</a>
           </div>
